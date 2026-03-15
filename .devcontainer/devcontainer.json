@@ -1,0 +1,21 @@
+{
+  "name": "StorySong Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+  },
+  "postCreateCommand": "echo 'Container ready! Run: claude' && claude --version",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  }
+}
