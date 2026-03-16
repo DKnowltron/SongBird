@@ -2,30 +2,19 @@
 
 ## Tech Stack
 
-> **Status:** Tech stack selection is pending. This section will be updated when decisions are made (see DECISIONS.md).
+**Backend API:** Node.js + TypeScript (see DEC-009)
 
-### Candidates under consideration
+**Auth:** Supabase Auth — Google OAuth, Apple Sign-In, email/password (see DEC-010, DEC-011)
 
-**Backend API:**
-- Node.js (TypeScript) — aligns with dev environment (Node 22), large ecosystem, good for API-heavy services
-- Python (FastAPI) — strong for AI/ML pipeline when that's added later
+**Database:** PostgreSQL via Supabase (managed, standard Postgres — portable if we outgrow Supabase)
 
-**Database:**
-- PostgreSQL — relational, strong for structured metadata, ISRC lookups, verification workflows
+**Object storage:** Supabase Storage (S3-compatible) — audio files, transcripts
 
-**Object storage:**
-- S3-compatible (AWS S3, Cloudflare R2, MinIO for dev) — audio files, transcripts
+**Web:** React / Next.js — aligns with TypeScript backend, shared knowledge with React Native
 
-**Mobile:**
-- React Native — cross-platform (iOS + Android) from single codebase
-- Flutter — alternative cross-platform option
+**Mobile:** TBD — React Native or Flutter (decision pending)
 
-**Web:**
-- React / Next.js — aligns with React Native for shared knowledge
-
-**Infrastructure:**
-- Containerized (Docker) — already using devcontainers
-- Cloud provider TBD
+**Infrastructure (Phase 1):** Supabase (auth + DB + storage) + PaaS for the API server (Railway, Render, or Fly.io). Containerized (Docker). ~$20-50/month. See DEC-008 for phased plan.
 
 ## System Overview
 
@@ -220,9 +209,10 @@ Infrastructure scales with the product. We don't build for enterprise on day one
 **Goal:** Get the product running, onboard first label's artists, iterate fast.
 
 **Infrastructure:**
-- **Hosting:** PaaS (Railway, Render, or Fly.io) — deploy from Git, no DevOps overhead
-- **Database:** Managed PostgreSQL (included with PaaS, or a small standalone instance)
-- **Object storage:** S3 or Cloudflare R2 for audio files
+- **Platform:** Supabase (auth + Postgres + S3-compatible storage) — see DEC-010
+- **Hosting:** PaaS (Railway, Render, or Fly.io) for the API server — deploy from Git, no DevOps overhead
+- **Database:** Supabase Postgres (managed, standard Postgres — portable)
+- **Object storage:** Supabase Storage (S3-compatible) for audio files
 - **Environments:** One environment (doubles as dev and staging)
 - **Backups:** Automated daily DB backups (most managed Postgres services include this)
 - **Monitoring:** Basic health checks and error logging (e.g., Sentry for errors, built-in PaaS metrics)

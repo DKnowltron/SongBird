@@ -4,6 +4,17 @@
 
 **Storyteller** is a story distribution platform for the music industry. Artists record audio narratives about their songs, and Storyteller distributes those stories to streaming platforms (Spotify, Apple Music, etc.) as a new content type — the same way music distributors deliver tracks and metadata today.
 
+## Tech Stack (decided)
+
+- **Backend:** Node.js + TypeScript (Fastify)
+- **Database:** PostgreSQL via Supabase
+- **Auth:** Supabase Auth (Google, Apple, email/password)
+- **Object storage:** Supabase Storage (S3-compatible)
+- **Web frontend:** React / Next.js (future)
+- **Mobile:** TBD (React Native or Flutter)
+- **Hosting (Phase 1):** Supabase + PaaS (Railway/Render/Fly.io)
+- **CI/CD:** GitHub Actions
+
 ## v1 Scope
 
 ### In scope
@@ -66,6 +77,93 @@
 
 > **Note:** Partner (Robert's label) may request moving some deferred features into v1 after reviewing the production plan. Architecture supports this without rework.
 
+## Implementation Plan
+
+### Phase A: Backend Foundation (current — overnight build)
+
+**Branch:** `feature/backend-scaffold`
+
+#### A1. Project scaffold
+- [x] Initialize Node.js + TypeScript project
+- [x] Fastify server with health check
+- [x] Docker + docker-compose (API + Postgres for local dev)
+- [x] ESLint + Prettier config
+- [x] pino structured logging
+- [x] Environment config (.env handling)
+- [x] .gitignore updated for Node.js project
+
+#### A2. Database schema
+- [x] Migration system setup (node-pg-migrate or similar)
+- [x] All 8 entity tables from DATA_MODEL.md
+- [x] Indexes, enums, constraints, foreign keys
+- [x] Seed script for local dev (test label, test artist, sample tracks)
+
+#### A3. Auth
+- [x] Supabase Auth integration layer (prepared for Supabase, works with local JWT for now)
+- [x] JWT middleware for artist routes
+- [x] API key middleware for partner routes
+- [x] Auth routes (register, login) — local implementation until Supabase is connected
+
+#### A4. Artist API
+- [x] Track CRUD (register, list, get by ID)
+- [x] Story CRUD (create with audio upload, get, update, delete)
+- [x] Story lifecycle (publish, verify, reject)
+- [x] Catalog import (CSV upload)
+- [x] Dashboard stats endpoint
+- [x] Request validation (zod or similar)
+
+#### A5. Audio pipeline
+- [x] Multipart upload handling
+- [x] Format validation (MP3, WAV, AAC)
+- [x] Size validation (max 10MB)
+- [x] Duration validation (5s–5min)
+- [x] Storage service abstraction (local filesystem for dev, Supabase Storage for prod)
+
+#### A6. Distribution API
+- [x] Partner story listing (with updated_since for incremental sync)
+- [x] Story by ISRC lookup
+- [x] Audio download redirect (signed URLs)
+- [x] Webhook dispatch service (send notifications to partner URLs)
+
+#### A7. Admin API
+- [x] Moderation queue (list flagged, approve, reject)
+- [x] Partner management (CRUD, API key generation)
+- [x] System stats
+
+#### A8. Testing
+- [x] Test framework setup (vitest)
+- [x] Unit tests for business logic (validation, story lifecycle)
+- [x] Integration tests for API routes (hitting real test DB)
+- [x] Test database setup/teardown
+
+#### A9. CI/CD
+- [ ] GitHub Actions workflow (lint, test on PR)
+- [ ] Auto-run tests on push to feature branches
+
+### Phase B: Supabase Integration (needs user)
+- [ ] Create Supabase project
+- [ ] Migrate schema to Supabase Postgres
+- [ ] Wire up Supabase Auth (Google, Apple, email/password)
+- [ ] Wire up Supabase Storage for audio files
+- [ ] Update .env with Supabase credentials
+- [ ] Deploy API to PaaS
+
+### Phase C: Web App
+- [ ] Next.js project scaffold
+- [ ] Auth flow (Supabase Auth UI)
+- [ ] Track management pages
+- [ ] Story recording (Web Audio API)
+- [ ] Story upload flow
+- [ ] Dashboard
+- [ ] Admin panel
+
+### Phase D: Mobile App
+- [ ] Framework decision (React Native vs Flutter)
+- [ ] Project scaffold
+- [ ] Auth flow
+- [ ] Story recording (native audio)
+- [ ] Core flows matching web app
+
 ## Architecture Direction
 
 ### Distribution model
@@ -123,8 +221,8 @@ Storyteller conforms to how streaming platforms already ingest content from dist
 | Milestone | Target |
 |-----------|--------|
 | File provisional patent | ASAP |
-| Finalize tech stack | Week 1–2 |
-| Development starts | Week 2 |
+| ~~Finalize tech stack~~ | ~~Week 1–2~~ Done |
+| Development starts | Now |
 | Backend API + database complete | Week 8–10 |
 | Web app complete | Week 10–12 (parallel) |
 | Mobile app complete | Week 12–16 (parallel or after web) |
@@ -145,7 +243,7 @@ Storyteller conforms to how streaming platforms already ingest content from dist
 2. Apple Music — premium positioning, values artist relationships
 3. Amazon Music / YouTube Music — secondary targets
 
-## Audio Requirements (draft)
+## Audio Requirements
 
 | Parameter | Requirement |
 |-----------|-------------|
@@ -157,10 +255,11 @@ Storyteller conforms to how streaming platforms already ingest content from dist
 | Channels | Mono or stereo |
 
 ## Next Steps
-1. **Send production plan PDF to partner** for feedback
-2. Incorporate partner feedback (may change v1 scope)
-3. File provisional patent
-4. Address legal structure (LLC, equity, artist licensing terms)
-5. Choose tech stack
-6. Define story asset package spec (distribution contract)
-7. Start building
+1. ~~Choose tech stack~~ Done (Node/TS + Supabase)
+2. **Build backend foundation** (Phase A — in progress)
+3. **Send production plan PDF to partner** for feedback
+4. Incorporate partner feedback (may change v1 scope)
+5. File provisional patent
+6. Address legal structure (LLC, equity, artist licensing terms)
+7. Create Supabase project and wire up (Phase B)
+8. Start web app (Phase C)

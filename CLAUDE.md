@@ -151,3 +151,49 @@ Design docs live in `docs/design/`. These are the source of truth and must be ke
 1. **Build from the docs.** All implementation must trace back to the design docs. If something isn't documented, design it first.
 2. **Update docs when implementation forces changes.** If prototyping reveals a design flaw, update the design docs before proceeding with the new approach.
 3. **Keep CLAUDE.md updated.** Once there are build commands, test commands, or project structure, add them here.
+
+## Engineering Best Practices
+
+### Logging
+
+1. **Structured logging from day one.** Use a structured logger (e.g., pino) — no raw `console.log` in production code.
+2. **Log levels matter.** Use `error` for failures requiring attention, `warn` for recoverable issues, `info` for key business events (story created, distributed, verified), `debug` for development detail.
+3. **Context in every log.** Include relevant IDs (requestId, artistId, storyId, trackISRC) so logs are traceable across the request lifecycle.
+4. **No sensitive data in logs.** Never log passwords, tokens, API keys, or full audio file contents.
+5. **Request-level logging.** Every API request gets a unique requestId logged at entry and exit with method, path, status code, and duration.
+
+### Debugging
+
+1. **Errors must be actionable.** Error messages should say what went wrong and include enough context to reproduce. Stack traces in dev, structured error responses in production.
+2. **Health check endpoint.** Always have a `GET /health` that reports service status, DB connectivity, and storage connectivity.
+3. **Fail fast, fail loud.** If a required service (DB, storage) is unavailable at startup, crash immediately with a clear error — don't silently degrade.
+
+### Testing
+
+1. **Test as you build.** Every new module, route, or service gets tests in the same PR. No "we'll add tests later."
+2. **Test pyramid.** Unit tests for business logic and validation. Integration tests for API routes hitting a real (local) database. No mocking the database — use a test database.
+3. **Test naming.** Tests describe behavior: `"rejects audio files over 10MB"`, not `"test upload validation"`.
+4. **Run tests before committing.** Tests must pass before creating a commit. If tests fail, fix them first.
+5. **Regression tests are mandatory.** Every bug logged in REGRESSION.md must have a corresponding test that would catch the bug if it recurred.
+6. **Coverage is a guide, not a goal.** Focus on testing critical paths (auth, story creation, distribution) thoroughly rather than chasing a coverage number.
+
+### Feature development workflow
+
+1. **Branch per feature.** Every feature, fix, or chore gets its own branch (`feature/*`, `fix/*`, `chore/*`). Never work directly on `main`.
+2. **Small, focused PRs.** One logical change per PR. If a feature is large, break it into stacked PRs (e.g., `feature/auth-schema` → `feature/auth-routes` → `feature/auth-tests`).
+3. **PR checklist:**
+   - Tests pass
+   - Linting passes
+   - Session file updated with what was built and any decisions made
+   - Design docs updated if the implementation changed anything
+   - REGRESSION.md updated if any bugs were found and fixed
+   - Commit messages explain *why*
+4. **Merge to main via PR only.** Squash merge to keep main history clean. Delete the feature branch after merge.
+
+### Session & regression logging for continuous improvement
+
+1. **Session files are engineering journals.** Beyond decisions, log: what was built, what patterns worked well, what was harder than expected, and what you'd do differently. This builds institutional knowledge.
+2. **Tag learnings in session files.** When a better approach is discovered (a library, a pattern, a config choice), note it under a `## Learnings` section so future sessions can reference it.
+3. **Regression entries drive architecture.** If the same category of bug appears more than twice, add a `## Patterns` section to REGRESSION.md noting the systemic issue and the architectural fix applied.
+4. **Review regressions before building related features.** Before starting work on a module, check REGRESSION.md for past bugs in that area.
+5. **Session files reference PRs.** When a PR is created during a session, link it in the session file. When a PR is merged, note it.
