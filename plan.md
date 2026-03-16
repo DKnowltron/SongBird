@@ -162,11 +162,14 @@
 - [x] Protected route layout with sidebar navigation
 
 ### Phase D: Mobile App
-- [ ] Framework decision (React Native vs Flutter)
-- [ ] Project scaffold
-- [ ] Auth flow
-- [ ] Story recording (native audio)
-- [ ] Core flows matching web app
+- [x] Framework decision: React Native with Expo (DEC-014)
+- [x] Project scaffold (Expo Router, file-based routing)
+- [x] Auth flow (Supabase — email/password login + register)
+- [x] Story recording (expo-av native audio capture with haptic feedback)
+- [x] Core flows matching web app (dashboard, tracks, track detail, notifications, profile)
+- [x] Admin screens (moderation queue, partner list)
+- [x] 5-tab bottom navigation (Home, Tracks, Record, Alerts, Profile)
+- [x] Design diagrams in FigJam (navigation, user flows, screen inventory, state machine)
 
 ## Architecture Direction
 
