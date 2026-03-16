@@ -34,39 +34,115 @@ StorySong is a new project currently in the **design phase**. No application cod
 - PR description must reference which design docs or decisions are affected
 - During design phase: PRs for doc changes keep the history reviewable
 
+## Autonomy
+
+This project runs in an isolated devcontainer. Claude Code has **full autonomy** to:
+- Create, edit, and delete files
+- Install packages and dependencies
+- Run any commands (build, test, lint, scripts)
+- Create branches, commit, and push
+- Create and manage pull requests
+
+Only exception: still flag genuinely destructive actions on `main` (force push, reset) before executing.
+
 ## Development Environment
 
 - **Dev Container**: Debian-based with Node.js 22 and Claude Code pre-installed
 - **Required env var**: `ANTHROPIC_API_KEY` (passed from host via devcontainer)
 - **Editor extensions**: GitLens, Prettier (configured in devcontainer)
 
+## MCP Integrations
+
+### Figma
+
+Figma is the project's design and collaboration tool, connected via MCP server.
+
+- **MCP server**: `figma-remote-mcp` at `https://mcp.figma.com/mcp` (HTTP transport)
+- **Auth**: OAuth — authenticates via browser. Already configured and authenticated.
+- **Setup command** (already done): `claude mcp add --transport http figma-remote-mcp https://mcp.figma.com/mcp`
+
+### Gmail
+
+Gmail is connected for drafting and sending emails to partners and collaborators.
+
+- **MCP server**: `claude.ai Gmail` at `https://gmail.mcp.claude.com/mcp` (HTTP transport)
+- **Auth**: OAuth — authenticates via browser. Already configured and authenticated.
+- **Account**: david.knowlton@gmail.com
+
+### How we use Figma
+
+- **FigJam boards**: For meetings, brainstorming, and collaborative decision-making. Claude Code can read and write to these boards directly via the MCP server.
+- **Figma designs**: For UI/UX design work during prototyping. Claude Code can read design files to implement pixel-accurate layouts.
+- **Partner meetings**: Meeting agendas are set up as FigJam boards. Participants add sticky notes, comments, and votes during the meeting. Claude Code reads the board afterward to capture decisions and update design docs.
+
+### Rules for Figma usage
+
+1. **FigJam for collaboration, Figma for design.** Use FigJam boards for meetings and brainstorming. Use Figma design files for UI mockups and component design.
+2. **Sync decisions back to docs.** Any decisions captured on a FigJam board must be reflected in the appropriate design docs (`DECISIONS.md`, session files, etc.).
+3. **Reference board links.** When a FigJam board is used for a meeting or session, include the board link in the corresponding session file.
+
+## Project Structure
+
+```
+StorySong/
+├── CLAUDE.md              ← project instructions (this file)
+├── plan.md                ← execution plan (active working doc)
+├── .env                   ← secrets (gitignored)
+├── package.json           ← dependencies (PDF generation)
+│
+├── docs/
+│   ├── design/            ← source-of-truth design docs
+│   │   ├── DESIGN.md      ← vision, core experience, features, non-goals
+│   │   ├── ARCHITECTURE.md ← tech stack, components, deployment
+│   │   ├── DATA_MODEL.md  ← entities, relationships, storage
+│   │   ├── API.md         ← endpoints, request/response, integrations
+│   │   ├── DECISIONS.md   ← decision log with context and rationale
+│   │   └── REGRESSION.md  ← bugs, root causes, fixes, test cases
+│   │
+│   ├── partner/           ← partner-facing materials
+│   │   ├── PRODUCTION_PLAN.md
+│   │   ├── PARTNER_MEETING_AGENDA.md
+│   │   └── Storyteller-Production-Plan.pdf
+│   │
+│   ├── reference/         ← original source material (read-only context)
+│   │   ├── storyteller.md ← converted from original ChatGPT conversation
+│   │   └── Storyteller.rtf ← original ChatGPT conversation export
+│   │
+│   └── sessions/          ← per-session logs
+│       └── YYYY-MM-DD-session-name.md
+│
+└── scripts/               ← tooling & utilities
+    ├── generate-pdf.js    ← PDF generation script
+    └── production-plan.html ← HTML template for PDF
+```
+
 ## Design Documents (mandatory)
 
-All design work lives in `docs/`. These files are the source of truth and must be kept current.
+Design docs live in `docs/design/`. These are the source of truth and must be kept current.
 
 | File | Purpose |
 |------|---------|
-| `docs/DESIGN.md` | Vision, core experience, features, non-goals |
-| `docs/ARCHITECTURE.md` | Tech stack, components, dependencies, deployment |
-| `docs/DATA_MODEL.md` | Entities, relationships, storage |
-| `docs/DECISIONS.md` | Decision log with context and rationale |
-| `docs/API.md` | Endpoints, request/response shapes, external integrations |
-| `docs/REGRESSION.md` | Bugs found, root causes, fixes, and required test cases |
+| `docs/design/DESIGN.md` | Vision, core experience, features, non-goals |
+| `docs/design/ARCHITECTURE.md` | Tech stack, components, dependencies, deployment |
+| `docs/design/DATA_MODEL.md` | Entities, relationships, storage |
+| `docs/design/DECISIONS.md` | Decision log with context and rationale |
+| `docs/design/API.md` | Endpoints, request/response shapes, external integrations |
+| `docs/design/REGRESSION.md` | Bugs found, root causes, fixes, and required test cases |
 | `docs/sessions/` | Per-session logs named `YYYY-MM-DD-session-name.md` |
 
 ### Rules for design sessions
 
 1. **Read before writing.** Before any design discussion, read the relevant doc(s) to understand current state. Do not contradict or duplicate existing decisions without explicitly noting the change.
 2. **Update docs during the conversation.** When a design decision is made, update the relevant doc immediately — do not wait until the end of the session.
-3. **Log every significant decision.** Any choice between alternatives (tech stack, architecture pattern, data model shape, API style) gets an entry in `docs/DECISIONS.md` with context, alternatives, and rationale.
-4. **No orphan decisions.** If a decision affects multiple docs, update all of them. For example, choosing a database updates both `DATA_MODEL.md` and `ARCHITECTURE.md`.
+3. **Log every significant decision.** Any choice between alternatives (tech stack, architecture pattern, data model shape, API style) gets an entry in `docs/design/DECISIONS.md` with context, alternatives, and rationale.
+4. **No orphan decisions.** If a decision affects multiple docs, update all of them. For example, choosing a database updates both `docs/design/DATA_MODEL.md` and `docs/design/ARCHITECTURE.md`.
 5. **Replace placeholders.** When filling in a section, remove the HTML comment placeholder. Sections with remaining comments indicate incomplete design work.
 6. **Create a session file at the start of every session.** Name it `docs/sessions/YYYY-MM-DD-session-name.md` using the current date and a descriptive slug (e.g., `2026-03-16-data-model-design.md`). Log context, decisions made, changes made, and open items throughout the session.
 7. **Update the session file as you go.** Don't backfill at the end — capture decisions and changes in real time, just like the design docs.
 
 ### Rules for regressions
 
-1. **Log every bug.** When a bug is found during prototyping or testing, add a numbered entry to `docs/REGRESSION.md` with description, root cause, fix, and a test case to prevent recurrence.
+1. **Log every bug.** When a bug is found during prototyping or testing, add a numbered entry to `docs/design/REGRESSION.md` with description, root cause, fix, and a test case to prevent recurrence.
 2. **Never close without a test case.** Every regression entry must include how to verify the fix holds. These accumulate into the required test cases section.
 3. **Reference regressions in session files.** If a bug is found during a session, note it in both the session file and `REGRESSION.md`.
 
