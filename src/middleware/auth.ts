@@ -35,11 +35,21 @@ async function verifySupabaseToken(request: FastifyRequest, token: string) {
     throw new UnauthorizedError('Invalid or expired token');
   }
 
-  // Look up artist by supabase_user_id
-  const result = await query<{ id: string; email: string; role: string }>(
+  // Look up artist by supabase_user_id, fall back to email
+  let result = await query<{ id: string; email: string; role: string }>(
     'SELECT id, email, role FROM artists WHERE supabase_user_id = $1',
     [data.user.id],
   );
+
+  if (result.rows.length === 0 && data.user.email) {
+    result = await query<{ id: string; email: string; role: string }>(
+      'SELECT id, email, role FROM artists WHERE email = $1',
+      [data.user.email],
+    );
+    if (result.rows.length > 0) {
+      await query('UPDATE artists SET supabase_user_id = $1 WHERE email = $2', [data.user.id, data.user.email]);
+    }
+  }
 
   if (result.rows.length === 0) {
     throw new UnauthorizedError('No artist profile linked to this account');

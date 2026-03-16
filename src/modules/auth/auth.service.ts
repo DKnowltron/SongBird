@@ -83,10 +83,21 @@ async function loginWithSupabase(input: LoginInput) {
   }
 
   // Look up artist by supabase_user_id
-  const result = await query<{ id: string; name: string; email: string }>(
+  let result = await query<{ id: string; name: string; email: string }>(
     'SELECT id, name, email FROM artists WHERE supabase_user_id = $1',
     [data.user.id],
   );
+
+  // Fall back to email lookup and link if found
+  if (result.rows.length === 0) {
+    result = await query<{ id: string; name: string; email: string }>(
+      'SELECT id, name, email FROM artists WHERE email = $1',
+      [data.user.email],
+    );
+    if (result.rows.length > 0) {
+      await query('UPDATE artists SET supabase_user_id = $1 WHERE email = $2', [data.user.id, data.user.email]);
+    }
+  }
 
   if (result.rows.length === 0) {
     throw new UnauthorizedError('No artist profile linked to this account');
@@ -145,6 +156,23 @@ export async function handleOAuthCallback(input: OAuthCallbackInput) {
 
   if (existing.rows.length > 0) {
     const artist = existing.rows[0];
+    return {
+      token: input.access_token,
+      refresh_token: input.refresh_token,
+      artist: { id: artist.id, name: artist.name, email: artist.email },
+    };
+  }
+
+  // Check if artist exists by email (e.g. seed data without supabase_user_id)
+  const byEmail = await query<{ id: string; name: string; email: string }>(
+    'SELECT id, name, email FROM artists WHERE email = $1',
+    [user.email],
+  );
+
+  if (byEmail.rows.length > 0) {
+    // Link existing artist to Supabase user
+    await query('UPDATE artists SET supabase_user_id = $1 WHERE email = $2', [user.id, user.email]);
+    const artist = byEmail.rows[0];
     return {
       token: input.access_token,
       refresh_token: input.refresh_token,

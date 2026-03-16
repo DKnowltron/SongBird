@@ -21,6 +21,15 @@
 - **Test case:** `npm run migrate` succeeds when only `SUPABASE_PROJECT_REF` and `SUPABASE_ACCESS_TOKEN` are set (no `DATABASE_URL`). New migration files are applied and tracked in `_migrations` table.
 - **Files affected:** `src/db/migrate.ts`
 
+### REG-003: OAuth callback crashes for existing artists without supabase_user_id
+- **Date found:** 2026-03-16
+- **Severity:** high
+- **Description:** When a Supabase Auth user logs in via OAuth and their email matches an existing artist (e.g. from seed data), the OAuth callback tries to INSERT a new artist record, hitting a unique constraint violation on `email`. The 500 error blocks login entirely.
+- **Root cause:** `handleOAuthCallback`, `loginWithSupabase`, and `verifySupabaseToken` only looked up artists by `supabase_user_id`. Artists created before Supabase Auth integration (seed data, local auth) have no `supabase_user_id`, so the lookup returned empty and the code tried to create a duplicate.
+- **Fix:** All three functions now fall back to email lookup when `supabase_user_id` lookup returns no results. If found by email, the `supabase_user_id` is backfilled via UPDATE, linking the accounts for future lookups.
+- **Test case:** Login with a Supabase Auth account whose email matches a pre-existing artist without `supabase_user_id`. Should succeed and link the accounts. Subsequent logins should use the fast `supabase_user_id` path.
+- **Files affected:** `src/modules/auth/auth.service.ts`, `src/middleware/auth.ts`
+
 ## Required Test Cases
 
 - **DB connectivity:** API must be able to query Supabase and return data (REG-001)
