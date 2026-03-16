@@ -84,7 +84,7 @@ Artists shouldn't have to enter ISRCs one by one. Options:
 ### Audio requirements
 | Parameter | Requirement |
 |-----------|-------------|
-| Formats accepted | MP3, WAV, AAC |
+| Formats accepted | MP3, WAV, AAC, WebM |
 | Min duration | 5 seconds |
 | Max duration | 5 minutes |
 | Max file size | 10 MB |
