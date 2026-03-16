@@ -9,7 +9,7 @@ async function main() {
   const { data, error } = await supabase.storage.createBucket('story-audio', {
     public: false,
     fileSizeLimit: 10 * 1024 * 1024, // 10 MB
-    allowedMimeTypes: ['audio/mpeg', 'audio/wav', 'audio/aac', 'audio/mp4'],
+    allowedMimeTypes: ['audio/mpeg', 'audio/wav', 'audio/aac', 'audio/mp4', 'audio/webm'],
   });
 
   if (error) {

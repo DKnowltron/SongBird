@@ -1,7 +1,7 @@
 import { parseBuffer } from 'music-metadata';
 import { ValidationError, BadRequestError } from '../utils/errors.js';
 
-const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'aac', 'm4a'];
+const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'aac', 'm4a', 'webm'];
 const ALLOWED_MIME_TYPES = [
   'audio/mpeg',
   'audio/mp3',
@@ -11,6 +11,7 @@ const ALLOWED_MIME_TYPES = [
   'audio/aac',
   'audio/mp4',
   'audio/x-m4a',
+  'audio/webm',
 ];
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
