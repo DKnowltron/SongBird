@@ -34,6 +34,17 @@ StorySong is a new project currently in the **design phase**. No application cod
 - PR description must reference which design docs or decisions are affected
 - During design phase: PRs for doc changes keep the history reviewable
 
+## Autonomy
+
+This project runs in an isolated devcontainer. Claude Code has **full autonomy** to:
+- Create, edit, and delete files
+- Install packages and dependencies
+- Run any commands (build, test, lint, scripts)
+- Create branches, commit, and push
+- Create and manage pull requests
+
+Only exception: still flag genuinely destructive actions on `main` (force push, reset) before executing.
+
 ## Development Environment
 
 - **Dev Container**: Debian-based with Node.js 22 and Claude Code pre-installed
