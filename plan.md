@@ -137,15 +137,15 @@
 - [x] Test database setup/teardown
 
 #### A9. CI/CD
-- [ ] GitHub Actions workflow (lint, test on PR)
-- [ ] Auto-run tests on push to feature branches
+- [x] GitHub Actions workflow (lint, test on PR)
+- [x] Auto-run tests on push to feature branches
 
-### Phase B: Supabase Integration (needs user)
-- [ ] Create Supabase project
-- [ ] Migrate schema to Supabase Postgres
-- [ ] Wire up Supabase Auth (Google, Apple, email/password)
-- [ ] Wire up Supabase Storage for audio files
-- [ ] Update .env with Supabase credentials
+### Phase B: Supabase Integration
+- [x] Create Supabase project
+- [x] Migrate schema to Supabase Postgres
+- [x] Wire up Supabase Auth (Google, Apple, email/password)
+- [x] Wire up Supabase Storage for audio files
+- [x] Update .env with Supabase credentials
 - [ ] Deploy API to PaaS
 
 ### Phase C: Web App

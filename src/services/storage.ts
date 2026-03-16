@@ -26,8 +26,6 @@ export class LocalStorageService implements StorageService {
   }
 
   async getSignedUrl(key: string, _expiresIn?: number): Promise<string> {
-    // In local dev, just return a path-based URL
-    // In production, this would generate a time-limited signed URL
     return `/storage/${key}`;
   }
 
@@ -41,6 +39,59 @@ export class LocalStorageService implements StorageService {
   }
 }
 
+/**
+ * Supabase Storage service for production.
+ * Uses Supabase Storage buckets with signed URLs.
+ */
+export class SupabaseStorageService implements StorageService {
+  private bucket: string;
+
+  constructor(bucket?: string) {
+    this.bucket = bucket || getEnv().SUPABASE_STORAGE_BUCKET;
+  }
+
+  async upload(key: string, data: Buffer, contentType: string): Promise<void> {
+    const { getSupabaseAdmin } = await import('./supabase.js');
+    const supabase = getSupabaseAdmin();
+
+    const { error } = await supabase.storage
+      .from(this.bucket)
+      .upload(key, data, { contentType, upsert: true });
+
+    if (error) {
+      throw new Error(`Supabase Storage upload failed: ${error.message}`);
+    }
+  }
+
+  async getSignedUrl(key: string, expiresIn: number = 3600): Promise<string> {
+    const { getSupabaseAdmin } = await import('./supabase.js');
+    const supabase = getSupabaseAdmin();
+
+    const { data, error } = await supabase.storage
+      .from(this.bucket)
+      .createSignedUrl(key, expiresIn);
+
+    if (error || !data?.signedUrl) {
+      throw new Error(`Supabase Storage signed URL failed: ${error?.message}`);
+    }
+
+    return data.signedUrl;
+  }
+
+  async delete(key: string): Promise<void> {
+    const { getSupabaseAdmin } = await import('./supabase.js');
+    const supabase = getSupabaseAdmin();
+
+    const { error } = await supabase.storage
+      .from(this.bucket)
+      .remove([key]);
+
+    if (error) {
+      throw new Error(`Supabase Storage delete failed: ${error.message}`);
+    }
+  }
+}
+
 let _storage: StorageService | null = null;
 
 export function getStorage(): StorageService {
@@ -48,10 +99,10 @@ export function getStorage(): StorageService {
 
   const env = getEnv();
   switch (env.STORAGE_TYPE) {
-    case 'local':
-      _storage = new LocalStorageService(env.STORAGE_PATH);
+    case 'supabase':
+      _storage = new SupabaseStorageService(env.SUPABASE_STORAGE_BUCKET);
       break;
-    // Future: case 's3': case 'supabase':
+    case 'local':
     default:
       _storage = new LocalStorageService(env.STORAGE_PATH);
   }

@@ -1,17 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getPool, closePool } from './connection.js';
+import { initDb, query, closePool } from './connection.js';
 import { loadEnv } from '../config/env.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function migrate() {
   loadEnv();
-  const pool = getPool();
+  initDb();
 
   // Create migrations tracking table
-  await pool.query(`
+  await query(`
     CREATE TABLE IF NOT EXISTS _migrations (
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL UNIQUE,
@@ -20,7 +20,7 @@ async function migrate() {
   `);
 
   // Get already-applied migrations
-  const { rows: applied } = await pool.query<{ name: string }>(
+  const { rows: applied } = await query<{ name: string }>(
     'SELECT name FROM _migrations ORDER BY name',
   );
   const appliedSet = new Set(applied.map((r) => r.name));
@@ -39,19 +39,22 @@ async function migrate() {
     const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf-8');
     console.log(`  Applying ${file}...`);
 
-    const client = await pool.connect();
     try {
-      await client.query('BEGIN');
-      await client.query(sql);
-      await client.query('INSERT INTO _migrations (name) VALUES ($1)', [file]);
-      await client.query('COMMIT');
+      // Run migration SQL — each statement separately for Management API compatibility
+      const statements = sql
+        .split(';')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
+
+      for (const stmt of statements) {
+        await query(stmt);
+      }
+
+      await query('INSERT INTO _migrations (name) VALUES ($1)', [file]);
       count++;
     } catch (err) {
-      await client.query('ROLLBACK');
       console.error(`  Failed to apply ${file}:`, err);
       throw err;
-    } finally {
-      client.release();
     }
   }
 
