@@ -12,5 +12,16 @@ export const loginSchema = z.object({
   password: z.string().min(1),
 });
 
+export const refreshTokenSchema = z.object({
+  refresh_token: z.string().min(1),
+});
+
+export const oauthCallbackSchema = z.object({
+  access_token: z.string().min(1),
+  refresh_token: z.string().optional(),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type RefreshTokenInput = z.infer<typeof refreshTokenSchema>;
+export type OAuthCallbackInput = z.infer<typeof oauthCallbackSchema>;

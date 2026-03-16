@@ -26,6 +26,7 @@ export interface Artist {
   label_id: string | null;
   avatar_url: string | null;
   verified_identity: boolean;
+  supabase_user_id: string | null;
   created_at: string;
   updated_at: string;
 }
