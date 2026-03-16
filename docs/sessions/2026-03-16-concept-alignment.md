@@ -115,8 +115,20 @@ The Storyteller concept was developed through extensive ChatGPT conversations co
 - Updated API.md with admin endpoints and catalog import
 - Rebuilt production plan PDF with all updates
 
+## MCP Integrations Set Up
+- **Figma MCP** (`figma-remote-mcp`) — authenticated via OAuth. Can create FigJam diagrams, read design files, and generate boards.
+- **Gmail MCP** (`claude.ai Gmail`) — authenticated via OAuth. Can search emails, create drafts, and send messages from david.knowlton@gmail.com.
+
+## Partner Meeting Prep
+- Created FigJam decisions board for partner meeting agenda: [Storyteller - Partner Meeting Decisions Board](https://www.figma.com/online-whiteboard/create-diagram/b12f31a3-3d1f-4bd9-b22e-117b4968315a?utm_source=other&utm_content=edit_in_figjam)
+  - 25 numbered decision points (D1–D25) across 8 color-coded topic groups
+  - Designed for sticky-note annotation during the meeting, readable by Claude Code afterward
+- Drafted email to Robert Riggs (roberthriggs@gmail.com) with FigJam board link and instructions for using it during the meeting
+  - Reminder to attach Production Plan PDF (`docs/Storyteller-Production-Plan.pdf`) before sending
+
 ## Open Items
 - **Awaiting partner feedback** on production plan PDF — may change v1 scope
+- **Send email to Robert** — draft is in Gmail, needs PDF attachment added manually before sending
 - Choose tech stack (backend language/framework, mobile framework, cloud provider)
 - Research DDEX and existing distribution standards for extensibility
 - Define audio format requirements and validation rules (draft in API doc, needs finalization)

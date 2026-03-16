@@ -9,16 +9,16 @@ const path = require('path');
   });
   const page = await browser.newPage();
 
-  const htmlPath = path.resolve(__dirname, 'docs/production-plan.html');
+  const htmlPath = path.resolve(__dirname, 'production-plan.html');
   await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle0', timeout: 30000 });
 
   await page.pdf({
-    path: path.resolve(__dirname, 'docs/Storyteller-Production-Plan.pdf'),
+    path: path.resolve(__dirname, '..', 'docs/partner/Storyteller-Production-Plan.pdf'),
     format: 'Letter',
     printBackground: true,
     margin: { top: '0', right: '0', bottom: '0', left: '0' }
   });
 
   await browser.close();
-  console.log('PDF generated: docs/Storyteller-Production-Plan.pdf');
+  console.log('PDF generated: docs/partner/Storyteller-Production-Plan.pdf');
 })();
