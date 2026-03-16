@@ -77,3 +77,35 @@
 - **Alternatives considered:**
   - Full enterprise infrastructure from day one: dev/test/stage/prod, multi-region, auto-scaling, 99.99% uptime. Cost: thousands/month before a single user. Risk: over-investing in infra that will be redesigned once real usage patterns emerge.
 - **Rationale:** Zero users and zero partners today. Infrastructure decisions made now will likely be wrong once real usage patterns are known. The architecture (containers + Postgres + S3) runs anywhere — PaaS to full cloud. Each phase has clear exit criteria tied to actual business milestones, not speculation. Money and engineering time are better spent on the product until partners are depending on the API.
+
+## DEC-009: Node.js + TypeScript for backend
+- **Date:** 2026-03-16
+- **Status:** accepted
+- **Context:** Needed to choose a backend language/framework to begin implementation.
+- **Decision:** Use Node.js with TypeScript for the backend API.
+- **Alternatives considered:**
+  - Python (FastAPI): strong for AI/ML pipeline, but v1 has no AI features. Can add a Python service later when AI generation is built.
+- **Rationale:** Aligns with the dev environment (Node 22 already in devcontainer). Aligns with React/React Native for shared TypeScript knowledge across the stack. Large ecosystem for API-heavy services. TypeScript provides type safety without the overhead of a compiled language.
+
+## DEC-010: Supabase as Phase 1 platform
+- **Date:** 2026-03-16
+- **Status:** accepted
+- **Context:** Needed to choose infrastructure for Phase 1 (auth, database, object storage) within the $20-50/month budget.
+- **Decision:** Use Supabase as the primary platform for Phase 1, providing auth, PostgreSQL, and S3-compatible object storage in one service.
+- **Alternatives considered:**
+  - Clerk (auth only) + separate Postgres + separate S3: more moving parts, higher cost, more integration work.
+  - Auth0: industry standard but overkill and expensive for early stage.
+  - Firebase Auth + separate DB: pulls toward Google ecosystem, Firestore is not Postgres.
+  - Roll our own auth: months of plumbing for JWT, session management, OAuth flows. Not worth it.
+- **Rationale:** Supabase bundles three core Phase 1 needs (auth, Postgres, storage) into one managed service on a free/cheap tier. The Postgres underneath is standard — portable if we outgrow Supabase. The storage is S3-compatible. Auth supports all required providers out of the box. Fits the phased infrastructure plan: use Supabase now, migrate individual components to standalone services if Phase 2/3 demands it.
+
+## DEC-011: Auth providers — Google, Apple, email/password
+- **Date:** 2026-03-16
+- **Status:** accepted
+- **Context:** Needed to decide which authentication methods to offer artists and label managers.
+- **Decision:** Support Google OAuth, Apple Sign-In, and email/password for v1.
+- **Alternatives considered:**
+  - Facebook/Meta OAuth: declining relevance, adds integration work without clear value for music industry users.
+  - Spotify OAuth: tempting for a music platform, but Spotify's OAuth is designed for listener-facing apps. It doesn't prove catalog ownership or artist identity.
+  - Magic link (passwordless email): good UX but adds complexity around email delivery and may confuse less technical users.
+- **Rationale:** Google is universal — nearly every artist and manager has a Google account. Apple is required by App Store policy if you offer any third-party sign-in, and artists skew heavily iPhone. Email/password serves label managers on work email domains not tied to Google/Apple. Three providers cover the user base without over-complicating the auth surface.
