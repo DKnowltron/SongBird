@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-test:
+  api-lint-and-test:
     runs-on: ubuntu-latest
 
     services:
@@ -48,3 +48,28 @@ jobs:
 
       - name: Test
         run: npm test
+
+  web-build:
+    runs-on: ubuntu-latest
+
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-key
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Build
+        working-directory: web
+        run: npm run build
