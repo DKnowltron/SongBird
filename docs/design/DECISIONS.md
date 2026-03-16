@@ -130,3 +130,13 @@
   - Radix + custom styles: good accessibility defaults, but more plumbing than needed right now.
   - MUI: too heavy and opinionated for this project's aesthetic.
 - **Rationale:** The web app is small (~11 routes) and the UI is straightforward (tables, forms, cards, sidebar). Adding a component library now would be premature abstraction. Can adopt shadcn/ui later if the app grows significantly.
+
+## DEC-014: React Native (Expo) for mobile app
+- **Date:** 2026-03-16
+- **Status:** accepted
+- **Context:** Phase D requires a mobile app for iOS and Android. Needed to choose a cross-platform framework.
+- **Decision:** Use React Native with Expo for the mobile app.
+- **Alternatives considered:**
+  - Flutter: excellent cross-platform, but requires Dart — a new language in a TypeScript-only codebase. No shared knowledge with existing React/Next.js frontend.
+  - Native (Swift + Kotlin): best performance but doubles development effort and requires two codebases.
+- **Rationale:** React Native keeps the entire stack in TypeScript (backend, web, mobile). The team already knows React from the Next.js web app. Expo provides managed native modules (audio recording via expo-av, camera, push notifications) without needing Xcode/Android Studio for basic development. Supabase has first-class React Native support.
