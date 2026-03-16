@@ -1,9 +1,14 @@
+import { config } from 'dotenv';
 import { z } from 'zod';
+
+config();
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.coerce.number().int().positive().default(3000),
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: z.string().optional(),
+  SUPABASE_PROJECT_REF: z.string().optional(),
+  SUPABASE_ACCESS_TOKEN: z.string().optional(),
   JWT_SECRET: z.string().min(8),
   STORAGE_TYPE: z.enum(['local', 's3', 'supabase']).default('local'),
   STORAGE_PATH: z.string().default('./storage'),

@@ -13,12 +13,15 @@ import { adminRoutes } from './modules/admin/admin.routes.js';
 import { dashboardRoutes } from './modules/dashboard/dashboard.routes.js';
 import { notificationRoutes } from './modules/notifications/notifications.routes.js';
 import { getLogger } from './utils/logger.js';
-import { closePool } from './db/connection.js';
+import { initDb, closePool } from './db/connection.js';
 import { stopWebhookProcessor } from './modules/webhooks/webhooks.service.js';
 
 async function start() {
   const env = loadEnv();
   const logger = getLogger();
+
+  // Initialize database connection
+  initDb();
 
   const fastify = Fastify({
     logger: {
