@@ -1,8 +1,8 @@
-# Session: Tech Stack & Auth Decisions
+# Session: Tech Stack, Auth & Backend Build
 **Date:** 2026-03-16
 
 ## Context
-Picking up from the concept alignment session. Discussed what v1 work can start early, decided on the core tech stack and authentication strategy.
+Picking up from the concept alignment session. Discussed what v1 work can start early, decided on the core tech stack and authentication strategy, then built the complete backend API.
 
 ## Decisions Made
 
@@ -23,23 +23,55 @@ Picking up from the concept alignment session. Discussed what v1 work can start 
 - Email/password: fallback for label managers with work email
 - Skipped for v1: Facebook (declining), Spotify OAuth (listener-focused, doesn't prove catalog ownership)
 
-## Early start items identified
-Work that's locked in and can begin now:
-1. Project scaffolding (Node/TS, Supabase)
-2. Database schema/migrations (data model is fully designed)
-3. Auth + Artist API CRUD
-4. Audio upload + validation pipeline
-5. CSV catalog import
-6. Distribution API (partner-facing read layer)
-7. Webhook notification system
+## What Was Built
+
+### Backend API (PR #2: feature/backend-scaffold)
+Complete Node.js + TypeScript backend using Fastify:
+- **52 source files**, **34 unit tests** (all passing)
+- **10 SQL migrations** for all entities from DATA_MODEL.md
+- **Artist API**: auth, tracks, stories (multipart audio upload), dashboard, notifications, CSV catalog import
+- **Distribution API**: partner story listing, ISRC lookup, audio redirect
+- **Admin API**: moderation queue, partner management, system stats
+- **Audio validation**: format (MP3/WAV/AAC), size (10MB), duration (5s-5min), sample rate (44.1kHz+)
+- **Webhook dispatch** with async queue and retry (3 attempts)
+- **Audit trail** on every story lifecycle event
+- **Structured pino logging** with request IDs on every request
+- **Storage abstraction** (local filesystem for dev, Supabase Storage for prod)
+- **Docker + docker-compose** for local dev
+
+### Supabase Integration
+- Migrations run against Supabase Postgres via Management API
+- Database seeded: 1 label (Riggs Records), 3 users, 5 tracks, 1 partner
+- Created Management API database adapter (devcontainer can't reach Supabase direct Postgres)
+- API server tested and confirmed working against live Supabase DB
+
+### Engineering practices added to CLAUDE.md
+- Structured logging (pino, log levels, context IDs)
+- Testing requirements (test with every PR, real DB, regression tests mandatory)
+- Feature workflow (branch per feature, small PRs, checklist)
+- Session & regression logging for continuous improvement
+
+## Learnings
+- Devcontainer cannot reach Supabase's direct Postgres host (DNS unreachable) or pooler (auth fails). Created a Management API adapter as a workaround. Should resolve the direct connection for production use.
+- Supabase Management API `/v1/projects/{ref}/database/query` works well for development but only supports raw SQL (no parameterized queries natively) — the adapter handles parameter interpolation.
+
+## API Test Credentials
+- Artist 1: `artist1@test.com` / `password123`
+- Artist 2: `artist2@test.com` / `password123`
+- Admin: `admin@storyteller.com` / `password123`
+- Partner API key: `stk_37d7d1b6957284b44df0d4d85f21804887c477be8cb42d99b32b26cb72921f7a`
 
 ## Changes Made
-- Added DEC-009 (Node.js + TypeScript) to DECISIONS.md
-- Added DEC-010 (Supabase for Phase 1) to DECISIONS.md
-- Added DEC-011 (Auth providers) to DECISIONS.md
-- Updated ARCHITECTURE.md tech stack section from "pending" to decided
+- Added DEC-009, DEC-010, DEC-011 to DECISIONS.md
+- Updated ARCHITECTURE.md tech stack from "pending" to decided
+- Updated plan.md with implementation phases and checkboxes
+- Added Engineering Best Practices to CLAUDE.md
+- Built complete backend in `src/`
+- Connected to Supabase, ran migrations, seeded data
 
 ## Open Items
-- Project scaffolding — ready to start
 - Mobile framework decision still open (React Native vs Flutter)
 - Cloud provider for Phase 2+ still open (Supabase handles Phase 1)
+- Fix direct Postgres connection (need correct password or pooler config)
+- GitHub Actions CI pipeline
+- Web app (Phase C)
