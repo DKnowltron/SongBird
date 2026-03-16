@@ -109,3 +109,24 @@
   - Spotify OAuth: tempting for a music platform, but Spotify's OAuth is designed for listener-facing apps. It doesn't prove catalog ownership or artist identity.
   - Magic link (passwordless email): good UX but adds complexity around email delivery and may confuse less technical users.
 - **Rationale:** Google is universal — nearly every artist and manager has a Google account. Apple is required by App Store policy if you offer any third-party sign-in, and artists skew heavily iPhone. Email/password serves label managers on work email domains not tied to Google/Apple. Three providers cover the user base without over-complicating the auth surface.
+
+## DEC-012: Monorepo layout — web app in `web/` directory
+- **Date:** 2026-03-16
+- **Status:** accepted
+- **Context:** Needed to decide where the Next.js web app lives relative to the backend.
+- **Decision:** Web app lives in `web/` subdirectory of the same repo. Backend stays at root.
+- **Alternatives considered:**
+  - Separate repo: isolates concerns but splits git history, makes cross-cutting changes harder, doubles CI config.
+  - npm workspaces: full monorepo tooling. Adds complexity for two packages that don't share code yet.
+- **Rationale:** Simplest approach. One repo, one git history, one PR for changes that touch both. No shared code between backend and frontend yet — if that changes (shared types, validation schemas), can add npm workspaces later. Next.js is self-contained with its own `node_modules` and build.
+
+## DEC-013: No component library for v1 web app
+- **Date:** 2026-03-16
+- **Status:** accepted
+- **Context:** Needed to decide whether to use a component library (shadcn/ui, Radix, MUI) or build with Tailwind directly.
+- **Decision:** Build with Tailwind utility classes directly. No component library.
+- **Alternatives considered:**
+  - shadcn/ui: excellent quality, but adds setup overhead and a layer of abstraction for a small app.
+  - Radix + custom styles: good accessibility defaults, but more plumbing than needed right now.
+  - MUI: too heavy and opinionated for this project's aesthetic.
+- **Rationale:** The web app is small (~11 routes) and the UI is straightforward (tables, forms, cards, sidebar). Adding a component library now would be premature abstraction. Can adopt shadcn/ui later if the app grows significantly.

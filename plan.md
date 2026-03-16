@@ -149,13 +149,16 @@
 - [ ] Deploy API to PaaS
 
 ### Phase C: Web App
-- [ ] Next.js project scaffold
-- [ ] Auth flow (Supabase Auth UI)
-- [ ] Track management pages
-- [ ] Story recording (Web Audio API)
-- [ ] Story upload flow
-- [ ] Dashboard
-- [ ] Admin panel
+- [x] Next.js project scaffold
+- [x] Auth flow (Supabase Auth — email/password, Google, Apple, OAuth callback)
+- [x] Track management pages (list, add, import CSV, detail view)
+- [x] Story recording (Web Audio API — record, playback, upload)
+- [x] Story upload flow (multipart file upload with transcript)
+- [x] Dashboard (stats cards)
+- [x] Admin panel (moderation queue, partner management)
+- [x] Notifications page
+- [x] Stories overview page (tracks with/without stories)
+- [x] Protected route layout with sidebar navigation
 
 ### Phase D: Mobile App
 - [ ] Framework decision (React Native vs Flutter)
