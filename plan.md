@@ -146,7 +146,8 @@
 - [x] Wire up Supabase Auth (Google, Apple, email/password)
 - [x] Wire up Supabase Storage for audio files
 - [x] Update .env with Supabase credentials
-- [ ] Deploy API to PaaS
+- [ ] Deploy API to PaaS (config ready — see DEPLOY.md, needs PaaS account setup)
+- [ ] Deploy web app (Dockerfile + standalone output ready, needs Vercel/PaaS account)
 
 ### Phase C: Web App
 - [x] Next.js project scaffold
