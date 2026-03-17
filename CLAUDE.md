@@ -109,6 +109,15 @@ Gmail is connected for drafting and sending emails to partners and collaborators
 - **Auth**: OAuth — authenticates via browser. Already configured and authenticated.
 - **Account**: david.knowlton@gmail.com
 
+### Playwright
+
+Headless browser automation for E2E testing, screenshots, and Figma captures. Runs inside the devcontainer against localhost only.
+
+- **MCP server**: `playwright` (stdio transport, headless Chromium)
+- **Command**: `npx @playwright/mcp@latest --headless`
+- **Use for**: navigating local pages, taking screenshots, filling forms, Figma page captures
+- **Constraint**: localhost only — do not navigate to external URLs
+
 ### Rules for Figma usage
 
 1. **FigJam for collaboration, Figma for design.** Use FigJam boards for meetings and brainstorming. Use Figma design files for UI mockups and component design.
