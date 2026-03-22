@@ -122,6 +122,44 @@ Immutable log of significant actions for compliance and dispute resolution.
 | details | jsonb | Event-specific data |
 | created_at | timestamp | |
 
+### ContentLink
+External content link for a song content page. Links to interviews, articles, podcasts, and social posts about a track.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | UUID | Primary key |
+| track_id | UUID | The track this content is about |
+| url | string | External URL (YouTube, podcast, article, etc.) |
+| title | string | Display title for the link |
+| source | enum | `youtube`, `podcast`, `article`, `social`, `other` |
+| description | string (nullable) | Brief description of the content |
+| duration | string (nullable) | Content duration (e.g., "4:21", "22m") |
+| thumbnail_url | string (nullable) | Preview image URL |
+| added_by | UUID (nullable) | Artist who submitted the link |
+| approved | boolean | Whether the link has been moderated/approved |
+| created_at | timestamp | |
+| updated_at | timestamp | |
+
+**Notes:**
+- Content links are external — Storyteller does not host this content, only links to it.
+- All links require approval before being publicly visible (moderation queue).
+- Affiliate URLs are applied at read time via the `affiliate_configs` table.
+- A track + URL pair must be unique (no duplicate links).
+
+### AffiliateConfig
+Configuration for wrapping external URLs with affiliate tracking tags.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | UUID | Primary key |
+| source | enum | Content source type this config applies to |
+| domain_pattern | string | Domain substring to match (e.g., "youtube.com") |
+| affiliate_tag | string | Affiliate tag/ID to append |
+| url_template | string | Template with `{url}` and `{tag}` placeholders |
+| active | boolean | Whether this config is active |
+| created_at | timestamp | |
+| updated_at | timestamp | |
+
 ## Relationships
 
 ```
@@ -131,6 +169,7 @@ Track (1) ──── (many) Story         (one per source_type, one active at 
 Story (1) ──── (1) AudioAsset
 Story (1) ──── (many) Distribution  (one per partner platform)
 Partner (1) ──── (many) Distribution
+Track (1) ──── (many) ContentLink   (curated external content)
 ```
 
 - An **Artist** belongs to zero or one **Label**
@@ -138,6 +177,7 @@ Partner (1) ──── (many) Distribution
 - A **Track** has zero or more **Stories** (typically one active story)
 - A **Story** has exactly one **AudioAsset**
 - A **Story** has one **Distribution** record per **Partner** platform
+- A **Track** has zero or more **ContentLinks** (curated external content about the song)
 - **AuditEvents** reference any entity but have no foreign key constraints (append-only log)
 
 ## Storage
