@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>"Bohemian Rhapsody" by Queen — The Story Behind the Song | Storyteller</title>
+  <meta name="description" content="Hear the story behind Bohemian Rhapsody by Queen. Artist-verified audio narrative, interviews, podcasts, and articles about this iconic track.">
+  <meta property="og:title" content="Bohemian Rhapsody by Queen — The Story Behind the Song">
+  <meta property="og:description" content="Freddie came to us with this six-minute epic that defied every convention in rock music...">
+  <meta property="og:type" content="music.song">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface-hover: #1a1a24;
+      --border: #2a2a3a;
+      --text: #e8e8ed;
+      --text-muted: #8888a0;
+      --accent: #7c5cfc;
+      --accent-hover: #9478ff;
+      --accent-glow: rgba(124, 92, 252, 0.15);
+      --green: #34d399;
+      --orange: #fb923c;
+      --red: #f87171;
+      --radius: 12px;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.6; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+
+    /* Navbar */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent); color: #fff !important; padding: 8px 20px;
+      border-radius: 8px; font-weight: 600; font-size: 13px;
+    }
+    .nav-cta:hover { background: var(--accent-hover); }
+
+    /* Page Container */
+    .page { max-width: 800px; margin: 0 auto; padding: 88px 24px 60px; }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--text-muted); font-size: 14px; margin-bottom: 32px;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* Track Header */
+    .track-header {
+      display: flex; gap: 28px; align-items: flex-start; margin-bottom: 40px;
+    }
+    .track-art {
+      width: 180px; height: 180px; border-radius: 12px;
+      background: linear-gradient(135deg, #2d1b4e, #1a0a2e);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .track-art-icon { font-size: 56px; opacity: 0.25; }
+    .track-info { flex: 1; }
+    .track-info h1 {
+      font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px;
+    }
+    .track-artist {
+      font-size: 18px; margin-bottom: 4px;
+    }
+    .track-artist a { color: var(--text); font-weight: 600; }
+    .track-artist a:hover { color: var(--accent); }
+    .track-album {
+      font-size: 14px; color: var(--text-muted); margin-bottom: 16px;
+    }
+    .track-isrc {
+      font-size: 12px; color: var(--text-muted); font-family: monospace;
+      background: var(--surface); padding: 3px 8px; border-radius: 4px;
+      display: inline-block; margin-bottom: 16px;
+    }
+    .streaming-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .streaming-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 13px; font-weight: 500;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .streaming-link:hover { border-color: var(--text-muted); background: var(--surface-hover); color: var(--text); }
+    .spotify { border-color: #1db954; }
+    .spotify:hover { background: rgba(29,185,84,0.1); }
+    .apple { border-color: #fc3c44; }
+    .apple:hover { background: rgba(252,60,68,0.1); }
+    .youtube { border-color: #ff0000; }
+    .youtube:hover { background: rgba(255,0,0,0.1); }
+
+    /* Story Section */
+    .story-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 40px;
+    }
+    .story-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px;
+    }
+    .story-header h2 { font-size: 20px; font-weight: 700; }
+    .verified-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--green); font-size: 13px; font-weight: 600;
+      background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2);
+      padding: 4px 12px; border-radius: 20px;
+    }
+
+    /* Audio Player */
+    .audio-player {
+      background: rgba(124, 92, 252, 0.06);
+      border: 1px solid rgba(124, 92, 252, 0.12);
+      border-radius: 12px; padding: 20px;
+      margin-bottom: 20px;
+    }
+    .player-row {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .play-btn {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--accent); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: transform 0.15s, background 0.2s;
+    }
+    .play-btn:hover { transform: scale(1.08); background: var(--accent-hover); }
+    .play-btn svg { fill: #fff; width: 20px; height: 20px; margin-left: 2px; }
+    .player-details { flex: 1; }
+    .player-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .progress-bar {
+      width: 100%; height: 6px; background: rgba(255,255,255,0.08);
+      border-radius: 3px; overflow: hidden; cursor: pointer; margin-bottom: 6px;
+    }
+    .progress-fill {
+      width: 35%; height: 100%; background: var(--accent); border-radius: 3px;
+      transition: width 0.1s;
+    }
+    .player-times {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--text-muted); font-variant-numeric: tabular-nums;
+    }
+    .waveform {
+      display: flex; align-items: center; gap: 2px; height: 32px; margin: 12px 0 0;
+    }
+    .waveform-bar {
+      width: 3px; border-radius: 2px; background: var(--accent); opacity: 0.3;
+    }
+    .waveform-bar.active { opacity: 0.8; }
+
+    /* Transcript */
+    .transcript {
+      border-top: 1px solid var(--border); padding-top: 20px;
+    }
+    .transcript-toggle {
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; user-select: none;
+    }
+    .transcript-toggle h3 { font-size: 15px; font-weight: 600; }
+    .transcript-toggle .arrow { color: var(--text-muted); font-size: 18px; transition: transform 0.2s; }
+    .transcript-body {
+      margin-top: 16px; font-size: 15px; color: var(--text-muted); line-height: 1.8;
+    }
+
+    /* Content Links */
+    .content-section { margin-bottom: 40px; }
+    .content-section h2 {
+      font-size: 20px; font-weight: 700; margin-bottom: 20px;
+    }
+    .content-category { margin-bottom: 28px; }
+    .content-category h3 {
+      font-size: 14px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .content-card {
+      display: flex; gap: 16px; align-items: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      margin-bottom: 10px;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .content-card:hover { border-color: var(--accent); transform: translateX(4px); }
+    .content-thumb {
+      width: 80px; height: 56px; border-radius: 8px;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+    .thumb-video { background: linear-gradient(135deg, #1a1a2e, #2d1b4e); }
+    .thumb-podcast { background: linear-gradient(135deg, #1e3a2e, #0d2a1a); }
+    .thumb-article { background: linear-gradient(135deg, #2e2a1a, #1f1a0a); }
+    .thumb-social { background: linear-gradient(135deg, #1a2e3a, #0d1a2a); }
+    .content-info { flex: 1; min-width: 0; }
+    .content-info h4 {
+      font-size: 14px; font-weight: 600; margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .content-info .content-meta {
+      font-size: 12px; color: var(--text-muted);
+      display: flex; gap: 8px; align-items: center;
+    }
+    .content-info .content-meta .dot { opacity: 0.5; }
+    .content-duration {
+      font-size: 12px; color: var(--text-muted); flex-shrink: 0;
+      background: var(--surface-hover); padding: 4px 10px; border-radius: 6px;
+    }
+    .source-tag {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.3px;
+    }
+    .source-youtube { background: rgba(255,0,0,0.1); color: #ff4444; }
+    .source-podcast { background: rgba(52,211,153,0.1); color: var(--green); }
+    .source-article { background: rgba(251,146,60,0.1); color: var(--orange); }
+    .source-social { background: rgba(96,165,250,0.1); color: #60a5fa; }
+
+    /* More From Artist */
+    .more-from {
+      margin-bottom: 40px;
+    }
+    .more-from h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+    .more-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px;
+    }
+    .more-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px;
+      transition: border-color 0.2s; cursor: pointer;
+    }
+    .more-card:hover { border-color: var(--accent); }
+    .more-art {
+      width: 100%; aspect-ratio: 1; border-radius: 8px; margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .more-art-1 { background: linear-gradient(135deg, #1e3a5f, #0d1b2a); }
+    .more-art-2 { background: linear-gradient(135deg, #3a1a1a, #1f0a0a); }
+    .more-art-3 { background: linear-gradient(135deg, #1a2e1a, #0a1f0a); }
+    .more-art-4 { background: linear-gradient(135deg, #2e2a1a, #1f1a0a); }
+    .more-icon { font-size: 28px; opacity: 0.25; }
+    .more-card h4 { font-size: 13px; font-weight: 600; }
+    .more-card .more-meta { font-size: 12px; color: var(--text-muted); }
+    .more-card .more-badge {
+      display: inline-block; margin-top: 6px;
+      font-size: 11px; font-weight: 600; color: var(--accent);
+      background: var(--accent-glow); padding: 2px 8px; border-radius: 4px;
+    }
+    .no-story-badge {
+      display: inline-block; margin-top: 6px;
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      background: var(--surface-hover); padding: 2px 8px; border-radius: 4px;
+    }
+
+    /* Contribute / Claim */
+    .contribute-section {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; text-align: center;
+      margin-bottom: 40px;
+    }
+    .contribute-section h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .contribute-section p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+    .contribute-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-secondary {
+      display: inline-block; padding: 10px 24px;
+      background: var(--surface-hover); border: 1px solid var(--border);
+      color: var(--text); border-radius: 8px;
+      font-weight: 600; font-size: 14px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); background: var(--accent-glow); color: var(--text); }
+    .btn-primary {
+      display: inline-block; padding: 10px 24px;
+      background: var(--accent); color: #fff;
+      border-radius: 8px; font-weight: 600; font-size: 14px;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px; text-align: center;
+      color: var(--text-muted); font-size: 14px;
+    }
+    footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 16px; }
+
+    @media (max-width: 768px) {
+      .track-header { flex-direction: column; align-items: center; text-align: center; }
+      .track-art { width: 140px; height: 140px; }
+      .streaming-links { justify-content: center; }
+      .content-card { flex-direction: column; align-items: stretch; }
+      .content-thumb { width: 100%; height: 120px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="index.html" class="nav-logo" style="color:var(--text)"><span>S</span>toryteller</a>
+    <div class="nav-links">
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="for-artists.html" class="nav-cta">For Artists</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Back -->
+    <a href="index.html" class="back-link">&larr; Back</a>
+
+    <!-- Track Header -->
+    <div class="track-header">
+      <div class="track-art">
+        <div class="track-art-icon">&#9835;</div>
+      </div>
+      <div class="track-info">
+        <h1>Bohemian Rhapsody</h1>
+        <div class="track-artist"><a href="artist.html">Queen</a></div>
+        <div class="track-album">A Night at the Opera &middot; 1975</div>
+        <div class="track-isrc">ISRC: GBUM71029604</div>
+        <div class="streaming-links">
+          <a href="#" class="streaming-link spotify">&#9654; Spotify</a>
+          <a href="#" class="streaming-link apple">&#9654; Apple Music</a>
+          <a href="#" class="streaming-link youtube">&#9654; YouTube Music</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Story -->
+    <div class="story-section">
+      <div class="story-header">
+        <h2>The Story</h2>
+        <div class="verified-badge">&#10003; Artist Verified</div>
+      </div>
+      <div class="audio-player">
+        <div class="player-row">
+          <button class="play-btn">
+            <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+          </button>
+          <div class="player-details">
+            <div class="player-label">Artist Story &middot; 0:42</div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="player-times"><span>0:15</span><span>0:42</span></div>
+          </div>
+        </div>
+        <div class="waveform">
+          <div class="waveform-bar active" style="height:12px"></div>
+          <div class="waveform-bar active" style="height:20px"></div>
+          <div class="waveform-bar active" style="height:28px"></div>
+          <div class="waveform-bar active" style="height:18px"></div>
+          <div class="waveform-bar active" style="height:32px"></div>
+          <div class="waveform-bar active" style="height:24px"></div>
+          <div class="waveform-bar active" style="height:30px"></div>
+          <div class="waveform-bar active" style="height:16px"></div>
+          <div class="waveform-bar active" style="height:26px"></div>
+          <div class="waveform-bar active" style="height:20px"></div>
+          <div class="waveform-bar active" style="height:14px"></div>
+          <div class="waveform-bar" style="height:22px"></div>
+          <div class="waveform-bar" style="height:28px"></div>
+          <div class="waveform-bar" style="height:18px"></div>
+          <div class="waveform-bar" style="height:32px"></div>
+          <div class="waveform-bar" style="height:26px"></div>
+          <div class="waveform-bar" style="height:20px"></div>
+          <div class="waveform-bar" style="height:30px"></div>
+          <div class="waveform-bar" style="height:14px"></div>
+          <div class="waveform-bar" style="height:24px"></div>
+          <div class="waveform-bar" style="height:18px"></div>
+          <div class="waveform-bar" style="height:28px"></div>
+          <div class="waveform-bar" style="height:22px"></div>
+          <div class="waveform-bar" style="height:16px"></div>
+          <div class="waveform-bar" style="height:26px"></div>
+          <div class="waveform-bar" style="height:20px"></div>
+          <div class="waveform-bar" style="height:32px"></div>
+          <div class="waveform-bar" style="height:18px"></div>
+          <div class="waveform-bar" style="height:24px"></div>
+          <div class="waveform-bar" style="height:14px"></div>
+        </div>
+      </div>
+      <div class="transcript">
+        <div class="transcript-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.arrow').textContent = this.nextElementSibling.style.display === 'none' ? '&#9660;' : '&#9650;'">
+          <h3>Transcript</h3>
+          <span class="arrow">&#9660;</span>
+        </div>
+        <div class="transcript-body" style="display: none;">
+          <p>"Freddie came to us with this six-minute epic that defied every convention in rock music. He had the whole thing mapped out in his head &mdash; the ballad section, the operatic part, the hard rock finale. We all thought he was mad, honestly.</p>
+          <p>We recorded it at Rockfield Studios in Wales. The vocal overdubs alone took three weeks. We'd stack harmony upon harmony until the tape was literally wearing thin. Roger's voice would go up to notes none of us could reach.</p>
+          <p>The record label said it was too long, too weird, would never be a single. Kenny Everett played it on his radio show fourteen times in one weekend. The rest is history."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Links -->
+    <div class="content-section">
+      <h2>More About This Song</h2>
+
+      <!-- Videos -->
+      <div class="content-category">
+        <h3>&#127909; Videos</h3>
+        <a href="#" style="text-decoration:none; color:inherit;">
+        <div class="content-card">
+          <div class="content-thumb thumb-video">&#9654;</div>
+          <div class="content-info">
+            <h4>The Making of Bohemian Rhapsody &mdash; Classic Albums</h4>
+            <div class="content-meta">
+              <span class="source-tag source-youtube">YouTube</span>
+              <span class="dot">&middot;</span>
+              <span>Eagle Rock Entertainment</span>
+            </div>
+          </div>
+          <div class="content-duration">12:34</div>
+        </div>
+        </a>
+        <a href="#" style="text-decoration:none; color:inherit;">
+        <div class="content-card">
+          <div class="content-thumb thumb-video">&#9654;</div>
+          <div class="content-info">
+            <h4>Brian May Discusses the Recording Process</h4>
+            <div class="content-meta">
+              <span class="source-tag source-youtube">YouTube</span>
+              <span class="dot">&middot;</span>
+              <span>Guitar World</span>
+            </div>
+          </div>
+          <div class="content-duration">8:21</div>
+        </div>
+        </a>
+        <a href="#" style="text-decoration:none; color:inherit;">
+        <div class="content-card">
+          <div class="content-thumb thumb-video">&#9654;</div>
+          <div class="content-info">
+            <h4>Roger Taylor on the Opera Section Vocals</h4>
+            <div class="content-meta">
+              <span class="source-tag source-youtube">YouTube</span>
+              <span class="dot">&middot;</span>
+              <span>BBC Music</span>
+            </div>
+          </div>
+          <div class="content-duration">5:48</div>
+        </div>
+        </a>
+      </div>
+
+      <!-- Podcasts -->
+      <div class="content-category">
+        <h3>&#127897; Podcasts</h3>
+        <a href="#" style="text-decoration:none; color:inherit;">
+        <div class="content-card">
+          <div class="content-thumb thumb-podcast">&#127911;</div>
+          <div class="content-info">
+            <h4>Song Exploder: Bohemian Rhapsody</h4>
+            <div class="content-meta">
+              <span class="source-tag source-podcast">Podcast</span>
+              <span class="dot">&middot;</span>
+              <span>Song Exploder</span>
+            </div>
+          </div>
+          <div class="content-duration">22m</div>
+        </div>
+        </a>
+        <a href="#" style="text-decoration:none; color:inherit;">
+        <div class="content-card">
+          <div class="content-thumb thumb-podcast">&#127911;</div>
+          <div class="content-info">
+            <h4>Broken Record: Queen's Greatest Masterpiece</h4>
+            <div class="content-meta">
+              <span class="source-tag source-podcast">Podcast</span>
+              <span class="dot">&middot;</span>
+              <span>Broken Record with Rick Rubin</span>
+            </div>
+          </div>
+          <div class="content-duration">45m</div>
+        </div>
+        </a>
+      </div>
+
+      <!-- Articles -->
+      <div class="content-category">
+        <h3>&#128240; Articles</h3>
+        <a href="#" style="text-decoration:none; color:inherit;">
+        <div class="content-card">
+          <div class="content-thumb thumb-article">&#128196;</div>
+          <div class="content-info">
+            <h4>The Untold Story of Bohemian Rhapsody</h4>
+            <div class="content-meta">
+              <span class="source-tag source-article">Article</span>
+              <span class="dot">&middot;</span>
+              <span>Rolling Stone &middot; March 2019</span>
+            </div>
+          </div>
+        </div>
+        </a>
+        <a href="#" style="text-decoration:none; color:inherit;">
+        <div class="content-card">
+          <div class="content-thumb thumb-article">&#128196;</div>
+          <div class="content-info">
+            <h4>How Queen Recorded Their Most Ambitious Song</h4>
+            <div class="content-meta">
+              <span class="source-tag source-article">Article</span>
+              <span class="dot">&middot;</span>
+              <span>NME &middot; November 2018</span>
+            </div>
+          </div>
+        </div>
+        </a>
+      </div>
+
+      <!-- Social -->
+      <div class="content-category">
+        <h3>&#128172; Social</h3>
+        <a href="#" style="text-decoration:none; color:inherit;">
+        <div class="content-card">
+          <div class="content-thumb thumb-social">&#127380;</div>
+          <div class="content-info">
+            <h4>Brian May shares rare studio photo from Rockfield</h4>
+            <div class="content-meta">
+              <span class="source-tag source-social">Social</span>
+              <span class="dot">&middot;</span>
+              <span>Instagram &middot; Oct 2024</span>
+            </div>
+          </div>
+        </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- More From Artist -->
+    <div class="more-from">
+      <h2>More from <a href="artist.html">Queen</a></h2>
+      <div class="more-grid">
+        <div class="more-card">
+          <div class="more-art more-art-1"><div class="more-icon">&#9835;</div></div>
+          <h4>We Will Rock You</h4>
+          <div class="more-meta">News of the World</div>
+          <span class="more-badge">Has Story</span>
+        </div>
+        <div class="more-card">
+          <div class="more-art more-art-2"><div class="more-icon">&#9835;</div></div>
+          <h4>Somebody to Love</h4>
+          <div class="more-meta">A Day at the Races</div>
+          <span class="more-badge">Has Story</span>
+        </div>
+        <div class="more-card">
+          <div class="more-art more-art-3"><div class="more-icon">&#9835;</div></div>
+          <h4>Don't Stop Me Now</h4>
+          <div class="more-meta">Jazz</div>
+          <span class="no-story-badge">No story yet</span>
+        </div>
+        <div class="more-card">
+          <div class="more-art more-art-4"><div class="more-icon">&#9835;</div></div>
+          <h4>Under Pressure</h4>
+          <div class="more-meta">Hot Space</div>
+          <span class="more-badge">Has Story</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contribute / Claim -->
+    <div class="contribute-section">
+      <h3>Know something about this song?</h3>
+      <p>Help build the story behind Bohemian Rhapsody by sharing interviews, podcasts, articles, or videos.</p>
+      <div class="contribute-actions">
+        <a href="#" class="btn-secondary">Submit a Link</a>
+        <a href="for-artists.html" class="btn-primary">Are you the artist? Claim this page</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="explore.html">Explore</a>
+      <a href="for-artists.html">For Artists</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+    <p>&copy; 2026 Storyteller. Every song has a story.</p>
+  </footer>
+
+</body>
+</html>

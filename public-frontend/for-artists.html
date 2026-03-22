@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Artists — Storyteller</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface-hover: #1a1a24;
+      --border: #2a2a3a;
+      --text: #e8e8ed;
+      --text-muted: #8888a0;
+      --accent: #7c5cfc;
+      --accent-hover: #9478ff;
+      --accent-glow: rgba(124, 92, 252, 0.15);
+      --green: #34d399;
+      --radius: 12px;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.6; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent); color: #fff !important; padding: 8px 20px;
+      border-radius: 8px; font-weight: 600; font-size: 13px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center; padding: 160px 24px 80px;
+      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 60%);
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800; letter-spacing: -2px; line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), #c084fc);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 20px; color: var(--text-muted); max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .hero-cta {
+      display: inline-block; padding: 16px 40px;
+      background: var(--accent); color: #fff; border-radius: 12px;
+      font-weight: 700; font-size: 18px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 24px rgba(124,92,252,0.3);
+    }
+    .hero-cta:hover { background: var(--accent-hover); transform: translateY(-2px); color: #fff; }
+    .hero-sub { font-size: 14px; color: var(--text-muted); margin-top: 16px; }
+
+    .page { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* Value Props */
+    .value-section { padding: 80px 0; }
+    .value-section h2 {
+      font-size: 32px; font-weight: 800; letter-spacing: -1px;
+      text-align: center; margin-bottom: 48px;
+    }
+    .value-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .value-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; text-align: center;
+    }
+    .value-icon { font-size: 40px; margin-bottom: 16px; }
+    .value-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .value-card p { font-size: 14px; color: var(--text-muted); }
+
+    /* How It Works */
+    .process-section {
+      padding: 80px 0; border-top: 1px solid var(--border);
+    }
+    .process-section h2 {
+      font-size: 32px; font-weight: 800; letter-spacing: -1px;
+      text-align: center; margin-bottom: 48px;
+    }
+    .process-steps { max-width: 600px; margin: 0 auto; }
+    .process-step {
+      display: flex; gap: 24px; margin-bottom: 40px; position: relative;
+    }
+    .process-step:not(:last-child)::after {
+      content: ''; position: absolute;
+      left: 23px; top: 52px; bottom: -24px;
+      width: 2px; background: var(--border);
+    }
+    .process-num {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      font-weight: 700; font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; position: relative; z-index: 1;
+    }
+    .process-content { padding-top: 8px; }
+    .process-content h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .process-content p { font-size: 15px; color: var(--text-muted); }
+
+    /* Mockup */
+    .mockup-section {
+      padding: 80px 0; border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .mockup-section h2 {
+      font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px;
+    }
+    .mockup-section > p {
+      font-size: 16px; color: var(--text-muted); margin-bottom: 40px;
+    }
+    .mockup-frame {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; max-width: 480px; margin: 0 auto;
+      text-align: left;
+    }
+    .mock-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+      padding-bottom: 20px; border-bottom: 1px solid var(--border);
+    }
+    .mock-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #c084fc);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 16px;
+    }
+    .mock-name h4 { font-size: 14px; font-weight: 600; }
+    .mock-name p { font-size: 12px; color: var(--text-muted); }
+    .mock-track {
+      background: var(--surface-hover); border-radius: 10px; padding: 16px;
+      margin-bottom: 20px;
+    }
+    .mock-track h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+    .mock-track p { font-size: 13px; color: var(--text-muted); }
+    .mock-recorder {
+      background: rgba(124,92,252,0.06); border: 1px solid rgba(124,92,252,0.15);
+      border-radius: 12px; padding: 24px; text-align: center;
+    }
+    .mock-rec-btn {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: #f87171; border: 4px solid rgba(248,113,113,0.3);
+      margin: 0 auto 12px; display: flex; align-items: center; justify-content: center;
+    }
+    .mock-rec-inner {
+      width: 24px; height: 24px; border-radius: 50%; background: #fff;
+    }
+    .mock-rec-label { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+    .mock-rec-time { font-size: 24px; font-weight: 700; margin-top: 8px; font-variant-numeric: tabular-nums; }
+
+    /* FAQ */
+    .faq-section {
+      padding: 80px 0; border-top: 1px solid var(--border);
+    }
+    .faq-section h2 {
+      font-size: 32px; font-weight: 800; letter-spacing: -1px;
+      text-align: center; margin-bottom: 40px;
+    }
+    .faq-list { max-width: 640px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border); padding: 20px 0;
+    }
+    .faq-q {
+      font-size: 16px; font-weight: 600; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-q .arrow { color: var(--text-muted); transition: transform 0.2s; }
+    .faq-a {
+      font-size: 15px; color: var(--text-muted); margin-top: 12px;
+      display: none; line-height: 1.7;
+    }
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .arrow { transform: rotate(180deg); }
+
+    /* Bottom CTA */
+    .bottom-cta {
+      text-align: center; padding: 80px 0 60px;
+      background: linear-gradient(180deg, transparent, var(--accent-glow), transparent);
+    }
+    .bottom-cta h2 {
+      font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px;
+    }
+    .bottom-cta p {
+      font-size: 18px; color: var(--text-muted); margin-bottom: 32px;
+    }
+    .btn-primary {
+      display: inline-block; padding: 16px 40px;
+      background: var(--accent); color: #fff; border-radius: 12px;
+      font-weight: 700; font-size: 18px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 24px rgba(124,92,252,0.3);
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); color: #fff; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px; text-align: center;
+      color: var(--text-muted); font-size: 14px;
+    }
+    footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 16px; }
+
+    @media (max-width: 768px) {
+      .value-grid { grid-template-columns: 1fr; }
+      .nav-links a:not(.nav-cta) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo" style="color:var(--text)"><span>S</span>toryteller</a>
+    <div class="nav-links">
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="for-artists.html" class="nav-cta">For Artists</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Your fans want <em>the story.</em></h1>
+    <p>Record the story behind your music in minutes. We'll distribute it to every streaming platform.</p>
+    <a href="#" class="hero-cta">Get Started Free</a>
+    <p class="hero-sub">No credit card required. Record your first story today.</p>
+  </div>
+
+  <div class="page">
+
+    <!-- Value Props -->
+    <div class="value-section">
+      <h2>Why artists love Storyteller</h2>
+      <div class="value-grid">
+        <div class="value-card">
+          <div class="value-icon">&#127908;</div>
+          <h3>Record in Seconds</h3>
+          <p>Open the app, pick a song, hit record. Tell the story in your own words. It's that simple.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#127760;</div>
+          <h3>Distributed Everywhere</h3>
+          <p>Your story is delivered to Spotify, Apple Music, and every connected streaming platform automatically.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#128176;</div>
+          <h3>Own Your Narrative</h3>
+          <p>No algorithms deciding what your song means. Your words, your voice, your story. Verified by you.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="process-section">
+      <h2>How it works</h2>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="process-num">1</div>
+          <div class="process-content">
+            <h3>Sign up and import your catalog</h3>
+            <p>Create an account, then import your tracks via CSV, search by name, or connect through your distributor. We use ISRCs to link everything.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">2</div>
+          <div class="process-content">
+            <h3>Record or upload stories</h3>
+            <p>Pick a song, tap record, and tell the story. Or upload a pre-recorded audio file. Stories can be 5 seconds to 5 minutes.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">3</div>
+          <div class="process-content">
+            <h3>Review and publish</h3>
+            <p>Listen back, add a transcript if you want, then hit publish. You can verify it to signal to platforms that it's artist-approved.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">4</div>
+          <div class="process-content">
+            <h3>We handle distribution</h3>
+            <p>Your story is packaged and delivered to streaming partners via our API. Listeners hear your story before your track plays.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup -->
+    <div class="mockup-section">
+      <h2>Simple enough for anyone</h2>
+      <p>The recording experience is designed to be as easy as leaving a voice memo.</p>
+      <div class="mockup-frame">
+        <div class="mock-header">
+          <div class="mock-avatar">AJ</div>
+          <div class="mock-name">
+            <h4>Alicia Johnson</h4>
+            <p>3 tracks &middot; 1 story</p>
+          </div>
+        </div>
+        <div class="mock-track">
+          <h4>Midnight Drive</h4>
+          <p>Singles &middot; ISRC: USRC12345678</p>
+        </div>
+        <div class="mock-recorder">
+          <div class="mock-rec-btn">
+            <div class="mock-rec-inner"></div>
+          </div>
+          <div class="mock-rec-label">Recording...</div>
+          <div class="mock-rec-time">0:18</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <h2>Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item open">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            Is it free?
+            <span class="arrow">&#9660;</span>
+          </div>
+          <div class="faq-a">Yes. Recording and distributing stories is free during our early access period. We believe in proving value before charging for it.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            Which streaming platforms do you distribute to?
+            <span class="arrow">&#9660;</span>
+          </div>
+          <div class="faq-a">We're currently in partnership discussions with Spotify, Apple Music, Amazon Music, and YouTube Music. Stories will be delivered to all connected platforms as partnerships go live.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            How long should my story be?
+            <span class="arrow">&#9660;</span>
+          </div>
+          <div class="faq-a">Stories can be anywhere from 5 seconds to 5 minutes. Most artists find 30 seconds to 2 minutes hits the sweet spot &mdash; enough to share the inspiration without losing the listener.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            Do I own my stories?
+            <span class="arrow">&#9660;</span>
+          </div>
+          <div class="faq-a">Your stories are your content. You grant Storyteller a license to distribute them to streaming platforms on your behalf. You can update, replace, or remove a story at any time.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            What if I already have recorded stories elsewhere?
+            <span class="arrow">&#9660;</span>
+          </div>
+          <div class="faq-a">You can upload pre-recorded audio files in MP3, WAV, AAC, or WebM format. No need to re-record &mdash; just upload what you have.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            I'm a label manager. Can I manage multiple artists?
+            <span class="arrow">&#9660;</span>
+          </div>
+          <div class="faq-a">Yes. Storyteller supports multi-label, multi-artist workflows from day one. Label managers can invite artists, manage catalogs, and oversee stories across their roster.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="bottom-cta">
+    <h2>Your music has a story. Tell it.</h2>
+    <p>Join artists who are giving their fans the context behind the music.</p>
+    <a href="#" class="btn-primary">Create Your Account</a>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="explore.html">Explore</a>
+      <a href="for-artists.html">For Artists</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+    <p>&copy; 2026 Storyteller. Every song has a story.</p>
+  </footer>
+
+</body>
+</html>
