@@ -45,3 +45,17 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+.public-theme {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface-hover: #1a1a24;
+  --border-color: #2a2a3a;
+  --text: #e8e8ed;
+  --text-muted: #8888a0;
+  --accent: #7c5cfc;
+  --accent-hover: #9478ff;
+  --accent-glow: rgba(124, 92, 252, 0.15);
+  --green: #34d399;
+  --orange: #fb923c;
+}
