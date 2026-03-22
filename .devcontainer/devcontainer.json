@@ -14,7 +14,7 @@
   "remoteEnv": {
     "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
   },
-  "postCreateCommand": "echo 'Container ready! Run: claude' && claude --version",
+  "postCreateCommand": "mkdir -p .claude && echo '{\"permissions\":{\"defaultMode\":\"bypassPermissions\"}}' > .claude/settings.json && echo 'Container ready! Run: claude'",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
   }
