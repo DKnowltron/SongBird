@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queen — Artist Stories | Storyteller</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface-hover: #1a1a24;
+      --border: #2a2a3a;
+      --text: #e8e8ed;
+      --text-muted: #8888a0;
+      --accent: #7c5cfc;
+      --accent-hover: #9478ff;
+      --accent-glow: rgba(124, 92, 252, 0.15);
+      --green: #34d399;
+      --orange: #fb923c;
+      --radius: 12px;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.6; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent); color: #fff !important; padding: 8px 20px;
+      border-radius: 8px; font-weight: 600; font-size: 13px;
+    }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 88px 24px 60px; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--text-muted); font-size: 14px; margin-bottom: 32px;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* Artist Header */
+    .artist-header {
+      display: flex; gap: 28px; align-items: center; margin-bottom: 48px;
+      padding-bottom: 32px; border-bottom: 1px solid var(--border);
+    }
+    .artist-avatar {
+      width: 140px; height: 140px; border-radius: 50%;
+      background: linear-gradient(135deg, #2d1b4e, #1a0a2e);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 48px; font-weight: 800; color: var(--accent); opacity: 0.6;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .artist-info { flex: 1; }
+    .artist-info h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+    .verified-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--green); font-size: 13px; font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .artist-stats {
+      font-size: 15px; color: var(--text-muted); margin-bottom: 16px;
+    }
+    .artist-stats strong { color: var(--text); }
+    .streaming-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .streaming-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 13px; font-weight: 500;
+      transition: border-color 0.2s;
+    }
+    .streaming-link:hover { border-color: var(--text-muted); color: var(--text); }
+
+    /* Section */
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px;
+    }
+    .section-header h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .section-header .count { font-size: 14px; color: var(--text-muted); }
+
+    /* Songs with Stories Grid */
+    .story-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px; margin-bottom: 48px;
+    }
+    .story-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      transition: border-color 0.2s, transform 0.2s; cursor: pointer;
+    }
+    .story-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .story-art {
+      width: 100%; aspect-ratio: 1; border-radius: 8px; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .story-art-1 { background: linear-gradient(135deg, #2d1b4e, #1a0a2e); }
+    .story-art-2 { background: linear-gradient(135deg, #1e3a5f, #0d1b2a); }
+    .story-art-3 { background: linear-gradient(135deg, #3a1a1a, #1f0a0a); }
+    .story-art-4 { background: linear-gradient(135deg, #1a2e1a, #0a1f0a); }
+    .story-art-5 { background: linear-gradient(135deg, #2e2a1a, #1f1a0a); }
+    .story-art-6 { background: linear-gradient(135deg, #1a2e2e, #0a1f1f); }
+    .art-icon { font-size: 36px; opacity: 0.25; }
+    .play-overlay {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .story-card:hover .play-overlay { opacity: 1; }
+    .play-circle {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--accent); display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(124,92,252,0.4);
+    }
+    .play-circle svg { fill: #fff; width: 18px; height: 18px; margin-left: 2px; }
+    .story-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .story-card .card-meta { font-size: 12px; color: var(--text-muted); }
+    .story-card .card-duration {
+      font-size: 12px; color: var(--accent); margin-top: 6px; font-weight: 500;
+    }
+
+    /* All Tracks Table */
+    .tracks-table { width: 100%; margin-bottom: 48px; }
+    .track-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      transition: background 0.15s; cursor: pointer;
+    }
+    .track-row:hover { background: var(--surface); margin: 0 -12px; padding: 14px 12px; border-radius: 8px; }
+    .track-num { width: 28px; font-size: 14px; color: var(--text-muted); text-align: center; flex-shrink: 0; }
+    .track-title-col { flex: 1; min-width: 0; }
+    .track-title-col h4 { font-size: 14px; font-weight: 500; }
+    .track-album-col { flex: 0 0 200px; font-size: 13px; color: var(--text-muted); }
+    .track-status {
+      flex: 0 0 120px; text-align: right;
+    }
+    .status-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 6px;
+      font-size: 11px; font-weight: 600;
+    }
+    .status-story { background: var(--accent-glow); color: var(--accent); }
+    .status-verified { background: rgba(52,211,153,0.1); color: var(--green); }
+    .status-content { background: rgba(251,146,60,0.1); color: var(--orange); }
+    .status-none { background: var(--surface-hover); color: var(--text-muted); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px; text-align: center;
+      color: var(--text-muted); font-size: 14px; margin-top: 40px;
+    }
+    footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 16px; }
+
+    @media (max-width: 768px) {
+      .artist-header { flex-direction: column; text-align: center; }
+      .artist-avatar { width: 100px; height: 100px; font-size: 36px; }
+      .streaming-links { justify-content: center; }
+      .track-album-col { display: none; }
+      .nav-links a:not(.nav-cta) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo" style="color:var(--text)"><span>S</span>toryteller</a>
+    <div class="nav-links">
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="for-artists.html" class="nav-cta">For Artists</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <a href="explore.html" class="back-link">&larr; Back to Explore</a>
+
+    <!-- Artist Header -->
+    <div class="artist-header">
+      <div class="artist-avatar">Q</div>
+      <div class="artist-info">
+        <h1>Queen</h1>
+        <div class="verified-badge">&#10003; Verified Artist</div>
+        <div class="artist-stats">
+          <strong>12</strong> tracks &middot; <strong>8</strong> stories &middot; <strong>47</strong> content links
+        </div>
+        <div class="streaming-links">
+          <a href="#" class="streaming-link">&#9654; Spotify</a>
+          <a href="#" class="streaming-link">&#9654; Apple Music</a>
+          <a href="#" class="streaming-link">&#9654; YouTube Music</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Songs with Stories -->
+    <div class="section-header">
+      <h2>Songs with Stories</h2>
+      <span class="count">8 stories</span>
+    </div>
+    <div class="story-grid">
+      <a href="song.html" style="text-decoration:none; color:inherit;">
+      <div class="story-card">
+        <div class="story-art story-art-1">
+          <div class="art-icon">&#9835;</div>
+          <div class="play-overlay">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+            </div>
+          </div>
+        </div>
+        <h4>Bohemian Rhapsody</h4>
+        <div class="card-meta">A Night at the Opera</div>
+        <div class="card-duration">&#9654; 0:42 story</div>
+      </div>
+      </a>
+      <div class="story-card">
+        <div class="story-art story-art-2">
+          <div class="art-icon">&#9835;</div>
+          <div class="play-overlay">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+            </div>
+          </div>
+        </div>
+        <h4>We Will Rock You</h4>
+        <div class="card-meta">News of the World</div>
+        <div class="card-duration">&#9654; 0:35 story</div>
+      </div>
+      <div class="story-card">
+        <div class="story-art story-art-3">
+          <div class="art-icon">&#9835;</div>
+          <div class="play-overlay">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+            </div>
+          </div>
+        </div>
+        <h4>Somebody to Love</h4>
+        <div class="card-meta">A Day at the Races</div>
+        <div class="card-duration">&#9654; 0:58 story</div>
+      </div>
+      <div class="story-card">
+        <div class="story-art story-art-4">
+          <div class="art-icon">&#9835;</div>
+          <div class="play-overlay">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+            </div>
+          </div>
+        </div>
+        <h4>Under Pressure</h4>
+        <div class="card-meta">Hot Space</div>
+        <div class="card-duration">&#9654; 1:15 story</div>
+      </div>
+      <div class="story-card">
+        <div class="story-art story-art-5">
+          <div class="art-icon">&#9835;</div>
+          <div class="play-overlay">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+            </div>
+          </div>
+        </div>
+        <h4>Killer Queen</h4>
+        <div class="card-meta">Sheer Heart Attack</div>
+        <div class="card-duration">&#9654; 0:44 story</div>
+      </div>
+      <div class="story-card">
+        <div class="story-art story-art-6">
+          <div class="art-icon">&#9835;</div>
+          <div class="play-overlay">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+            </div>
+          </div>
+        </div>
+        <h4>Radio Ga Ga</h4>
+        <div class="card-meta">The Works</div>
+        <div class="card-duration">&#9654; 0:52 story</div>
+      </div>
+    </div>
+
+    <!-- All Tracks -->
+    <div class="section-header">
+      <h2>All Tracks</h2>
+      <span class="count">12 tracks</span>
+    </div>
+    <div class="tracks-table">
+      <div class="track-row">
+        <div class="track-num">1</div>
+        <div class="track-title-col"><h4>Bohemian Rhapsody</h4></div>
+        <div class="track-album-col">A Night at the Opera</div>
+        <div class="track-status"><span class="status-badge status-verified">Verified Story</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">2</div>
+        <div class="track-title-col"><h4>We Will Rock You</h4></div>
+        <div class="track-album-col">News of the World</div>
+        <div class="track-status"><span class="status-badge status-story">Has Story</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">3</div>
+        <div class="track-title-col"><h4>Somebody to Love</h4></div>
+        <div class="track-album-col">A Day at the Races</div>
+        <div class="track-status"><span class="status-badge status-verified">Verified Story</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">4</div>
+        <div class="track-title-col"><h4>Don't Stop Me Now</h4></div>
+        <div class="track-album-col">Jazz</div>
+        <div class="track-status"><span class="status-badge status-content">Content Only</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">5</div>
+        <div class="track-title-col"><h4>Under Pressure</h4></div>
+        <div class="track-album-col">Hot Space</div>
+        <div class="track-status"><span class="status-badge status-story">Has Story</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">6</div>
+        <div class="track-title-col"><h4>Killer Queen</h4></div>
+        <div class="track-album-col">Sheer Heart Attack</div>
+        <div class="track-status"><span class="status-badge status-verified">Verified Story</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">7</div>
+        <div class="track-title-col"><h4>Radio Ga Ga</h4></div>
+        <div class="track-album-col">The Works</div>
+        <div class="track-status"><span class="status-badge status-story">Has Story</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">8</div>
+        <div class="track-title-col"><h4>We Are the Champions</h4></div>
+        <div class="track-album-col">News of the World</div>
+        <div class="track-status"><span class="status-badge status-story">Has Story</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">9</div>
+        <div class="track-title-col"><h4>Another One Bites the Dust</h4></div>
+        <div class="track-album-col">The Game</div>
+        <div class="track-status"><span class="status-badge status-content">Content Only</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">10</div>
+        <div class="track-title-col"><h4>Crazy Little Thing Called Love</h4></div>
+        <div class="track-album-col">The Game</div>
+        <div class="track-status"><span class="status-badge status-none">No story yet</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">11</div>
+        <div class="track-title-col"><h4>I Want to Break Free</h4></div>
+        <div class="track-album-col">The Works</div>
+        <div class="track-status"><span class="status-badge status-none">No story yet</span></div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">12</div>
+        <div class="track-title-col"><h4>The Show Must Go On</h4></div>
+        <div class="track-album-col">Innuendo</div>
+        <div class="track-status"><span class="status-badge status-story">Has Story</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="explore.html">Explore</a>
+      <a href="for-artists.html">For Artists</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+    <p>&copy; 2026 Storyteller. Every song has a story.</p>
+  </footer>
+
+</body>
+</html>
