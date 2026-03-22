@@ -13,6 +13,7 @@ import { adminRoutes } from './modules/admin/admin.routes.js';
 import { dashboardRoutes } from './modules/dashboard/dashboard.routes.js';
 import { notificationRoutes } from './modules/notifications/notifications.routes.js';
 import { contentLinkRoutes } from './modules/content-links/content-links.routes.js';
+import { publicRoutes } from './modules/public/public.routes.js';
 import { getLogger } from './utils/logger.js';
 import { initDb, closePool } from './db/connection.js';
 import { stopWebhookProcessor } from './modules/webhooks/webhooks.service.js';
@@ -60,6 +61,7 @@ async function start() {
   await fastify.register(dashboardRoutes);
   await fastify.register(notificationRoutes);
   await fastify.register(contentLinkRoutes);
+  await fastify.register(publicRoutes);
 
   // Graceful shutdown
   const shutdown = async (signal: string) => {
