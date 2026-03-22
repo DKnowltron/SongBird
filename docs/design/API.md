@@ -236,6 +236,97 @@ Publish a draft story, making it available for distribution.
 
 ---
 
+### Content Links (Song Content Pages)
+
+Content links are external URLs (interviews, podcasts, articles, social posts) about a track. They power the song content page — a hub for everything about a song's story. No content is hosted; Storyteller only links to external sources and applies affiliate tags for monetization.
+
+#### `GET /v1/tracks/:track_id/content`
+List approved content links for a track. **Public — no auth required.**
+
+**Query params:** `?page=1&per_page=20&source=youtube`
+
+**Response:** `200 OK`
+```json
+{
+  "data": [
+    {
+      "id": "uuid",
+      "track_id": "uuid",
+      "url": "https://youtube.com/watch?v=...",
+      "title": "The Breakfast Club Interview - Story Behind the Song",
+      "source": "youtube",
+      "description": "Artist discusses the inspiration...",
+      "duration": "4:21",
+      "thumbnail_url": "https://img.youtube.com/...",
+      "approved": true,
+      "affiliate_url": "https://youtube.com/watch?v=...&tag=storyteller-20",
+      "created_at": "2026-03-22T..."
+    }
+  ],
+  "pagination": { "page": 1, "per_page": 20, "total": 5 }
+}
+```
+
+#### `POST /v1/tracks/:track_id/content`
+Add a content link to a track. Requires auth. Link enters moderation queue (approved = false).
+
+**Request:**
+```json
+{
+  "url": "https://youtube.com/watch?v=...",
+  "title": "Interview about Song Title",
+  "source": "youtube",
+  "description": "Artist talks about writing this song",
+  "duration": "4:21",
+  "thumbnail_url": "https://img.youtube.com/..."
+}
+```
+
+**Response:** `201 Created`
+
+**Errors:** `409 Conflict` (URL already linked), `404` (track not found)
+
+#### `PUT /v1/content-links/:id`
+Update a content link. Only the submitter can edit. Resets approval status.
+
+**Response:** `200 OK`
+
+#### `DELETE /v1/content-links/:id`
+Remove a content link. Only the submitter can delete.
+
+**Response:** `204 No Content`
+
+#### `POST /v1/content-links/:id/approve`
+Admin approves a content link, making it publicly visible.
+
+**Response:** `200 OK`
+
+#### `GET /v1/content-links/pending`
+Admin lists unapproved content links for moderation.
+
+**Query params:** `?page=1&per_page=20`
+
+**Response:** `200 OK`
+```json
+{
+  "data": [
+    {
+      "id": "uuid",
+      "track_title": "Song Title",
+      "artist_name": "Artist Name",
+      "url": "https://...",
+      "title": "Interview clip",
+      "source": "youtube",
+      "approved": false,
+      "created_at": "2026-03-22T..."
+    }
+  ],
+  "pagination": { "page": 1, "per_page": 20, "total": 3 }
+}
+```
+
+---
+
 ### Catalog Import
 
 #### `POST /v1/tracks/import`

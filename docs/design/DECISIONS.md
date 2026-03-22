@@ -140,3 +140,15 @@
   - Flutter: excellent cross-platform, but requires Dart — a new language in a TypeScript-only codebase. No shared knowledge with existing React/Next.js frontend.
   - Native (Swift + Kotlin): best performance but doubles development effort and requires two codebases.
 - **Rationale:** React Native keeps the entire stack in TypeScript (backend, web, mobile). The team already knows React from the Next.js web app. Expo provides managed native modules (audio recording via expo-av, camera, push notifications) without needing Xcode/Android Studio for basic development. Supabase has first-class React Native support.
+
+## DEC-015: Song content pages with affiliate monetization
+- **Date:** 2026-03-22
+- **Status:** accepted
+- **Context:** Storyteller needs content volume before every artist has recorded a story. Licensing existing interview/podcast content is expensive and legally complex. Needed a way to make every track page valuable without owning all the content.
+- **Decision:** Build song content pages that link to external content (YouTube interviews, podcasts, articles, social posts) with source citation. No content is hosted or reproduced. Revenue comes from affiliate links (Spotify, Apple Music, Amazon, YouTube, tickets) rather than fees. Artist-recorded stories remain the premium, fee-generating content layer.
+- **Alternatives considered:**
+  - License interview clips: legally clean but expensive, slow to negotiate, doesn't scale.
+  - AI-generated content: legal risk (voice cloning, copyright), undermines authenticity brand.
+  - Non-copyrighted content only: extremely limited catalog, not viable for modern artists.
+  - Do nothing until artists record: cold start problem — empty pages don't attract users.
+- **Rationale:** Linking is legally established (no copyright issue), costs nothing, and publishers benefit from the traffic. Affiliate programs (Spotify, Apple Music, Amazon) provide monetization from day one without label deals. Every track can have a content page immediately, solving the cold start problem. This also drives artist recruitment — artists see their page exists and are motivated to record an official story to own it.
